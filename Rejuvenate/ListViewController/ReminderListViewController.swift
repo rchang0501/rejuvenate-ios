@@ -12,6 +12,7 @@ import UIKit
 class ReminderListViewController: UICollectionViewController {
     
     var dataSource: DataSource! // this implicity unwraps DataSource and ensures it will be assigned a value -> basically just an lateinit var
+    var reminders: [Reminder] = Reminder.sampleData
     
     // this is basically just oncreate
     override func viewDidLoad() {
@@ -27,13 +28,13 @@ class ReminderListViewController: UICollectionViewController {
         
         // in the data source initilizer you pass a closure that configures and returns a cell for the collection view -> closrue is just a lambda
         // the closure accepts two inputs: an index path to the location of the cell and an itemIdentifier
-        dataSource = DataSource(collectionView: collectionView) { (collectionView: UICollectionView, indexPath: IndexPath, itemIdentifier: String) in // in separates the parameters from the return type in the closure
+        dataSource = DataSource(collectionView: collectionView) { (collectionView: UICollectionView, indexPath: IndexPath, itemIdentifier: Reminder.ID) in // in separates the parameters from the return type in the closure
             return collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: itemIdentifier) // the dequeueConfiguredReusableCell is the same as recycler view in android
         }
         
         var snapShot = SnapShot() // new empty snapshot variable
         snapShot.appendSections([0]) // add the section to it
-        snapShot.appendItems(Reminder.sampleData.map{$0.title}) // map returns a new array containing the titles ($0 means the first instance in the sampleData array)
+        snapShot.appendItems(reminders.map{$0.id}) // map returns a new array containing the titles ($0 means the first instance in the sampleData array)
         dataSource.apply(snapShot) // applying the snapshot reflects the changes in the ui
         
         collectionView.dataSource = dataSource // collectionView is from the super class UICollectionViewController and .dataSource was defined in this file

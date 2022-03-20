@@ -12,12 +12,12 @@ import UIKit
 // we break them down into separate files by making extensions to the main view controller file
 // this specific extention handles the data rather than the set up of the ui
 extension ReminderListViewController {
-    typealias DataSource = UICollectionViewDiffableDataSource<Int, String> // this is basically just assigning the diffable data source type to a new alias called DataSource. diffable data updates and animates the ui when data changes -> basically just live data
-    typealias SnapShot = NSDiffableDataSourceSnapshot<Int, String> // the diffable data source manages data using snapshots -> snapshots represent the state of the data at a certain point in time (like context) -> will be applying the snap shot to display data in the ui
+    typealias DataSource = UICollectionViewDiffableDataSource<Int, Reminder.ID> // this is basically just assigning the diffable data source type to a new alias called DataSource. diffable data updates and animates the ui when data changes -> basically just live data
+    typealias SnapShot = NSDiffableDataSourceSnapshot<Int, Reminder.ID> // the diffable data source manages data using snapshots -> snapshots represent the state of the data at a certain point in time (like context) -> will be applying the snap shot to display data in the ui
     
-    func cellRegistrationHandler(cell: UICollectionViewListCell, indexPath: IndexPath, id: String) {
+    func cellRegistrationHandler(cell: UICollectionViewListCell, indexPath: IndexPath, id: Reminder.ID) {
         // retrieve sample data
-        let reminder = Reminder.sampleData[indexPath.item]
+        let reminder = reminders[indexPath.item]
         
         // use the cell's content creation to assign the main contnet of the cell
         var contentConfiguration = cell.defaultContentConfiguration() // retrieve cell's default config
