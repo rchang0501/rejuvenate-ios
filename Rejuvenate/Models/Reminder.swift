@@ -17,6 +17,16 @@ struct Reminder: Identifiable {
     var isComplete: Bool = false
 }
 
+// extension on the array class for arrays where the elements are reminders
+extension Array where Element == Reminder {
+    func indexOfReminder(with id: Reminder.ID) -> Self.Index {
+        guard let index = firstIndex(where: {$0.id == id}) else {
+            fatalError()
+        }
+        return index
+    }
+}
+
 // #if DEBUG flag prevents this block of code from compiling during release --> this is used for testing or storing sample data
 #if DEBUG
 extension Reminder {
