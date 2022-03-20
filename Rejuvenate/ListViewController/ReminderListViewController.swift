@@ -32,10 +32,7 @@ class ReminderListViewController: UICollectionViewController {
             return collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: itemIdentifier) // the dequeueConfiguredReusableCell is the same as recycler view in android
         }
         
-        var snapShot = SnapShot() // new empty snapshot variable
-        snapShot.appendSections([0]) // add the section to it
-        snapShot.appendItems(reminders.map{$0.id}) // map returns a new array containing the titles ($0 means the first instance in the sampleData array)
-        dataSource.apply(snapShot) // applying the snapshot reflects the changes in the ui
+        updateSnapshot() //this applies the new snapshot to the datasource 
         
         collectionView.dataSource = dataSource // collectionView is from the super class UICollectionViewController and .dataSource was defined in this file
     }
