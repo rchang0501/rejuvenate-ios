@@ -37,6 +37,27 @@ class ReminderListViewController: UICollectionViewController {
         collectionView.dataSource = dataSource // collectionView is from the super class UICollectionViewController and .dataSource was defined in this file
     }
     
+    // function to show the detail view when a cell in the collection is tapped
+    override func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
+        // set up properties
+        let id = reminders[indexPath.item].id // retrieve the id of the reminder at the specified index path --> indexPath.item is an int so it can be used as an array index to retrieve the correct element
+        
+        // call the showDetail function to display the detail view
+        showDetail(for: id) // this function adds the detail view controller onto the navigation stack, enabling the detai view to be pushed onto the screen. a back button appears automatically as the leading element in the navigation bar
+        
+        return false // your return false to ensure that hte cell doesn't enter a selected mode when it is tapped, instead we just want to show the detail view
+    }
+    
+    // this function will handle showing the detail view
+    func showDetail(for id: Reminder.ID) {
+        // set up properties
+        let reminder = reminder(for: id) // get the remidner object based on the id 
+        let viewController = ReminderViewController(reminder: reminder) // instatiate a new detail view
+        
+        // push the detail view controller onto the navigation controller stack
+        navigationController?.pushViewController(viewController, animated: true)
+    }
+    
     // this funciton defines how the list ui will appear
     // a compositional layout lets you contstruct views by combining different components e.g. sections, groups, and items
     private func listLayout() -> UICollectionViewCompositionalLayout {
