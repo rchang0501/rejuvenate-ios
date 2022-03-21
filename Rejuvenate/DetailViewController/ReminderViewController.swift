@@ -43,6 +43,9 @@ class ReminderViewController: UICollectionViewController {
             return collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: itemIdentifier)
         }
         
+        // set the nav bar title 
+        navigationItem.title = NSLocalizedString("Reminder", comment: "Reminder view controller title")
+        
         // apply a snapshot of the datasource to the collection view once it loads 
         updateSnapshot()
     }
