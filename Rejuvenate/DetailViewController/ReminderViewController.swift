@@ -45,10 +45,22 @@ class ReminderViewController: UICollectionViewController {
         
         // set the nav bar title
         navigationItem.title = NSLocalizedString("Reminder", comment: "Reminder view controller title")
+        // set the nav bar's edit button in the top right corner
+        navigationItem.rightBarButtonItem = editButtonItem
         
         // apply a snapshot of the datasource to the collection view once it loads
         // REFACTORED --> this will only update the snapshot for the viewing mode, there is a different one for editing mode
         updateSnapshotForViewing()
+    }
+    
+    // setEditing is a built in functio ntaht will be called when the edit button is tappen --> this will override the defaults for custom implementations
+    override func setEditing(_ editing: Bool, animated: Bool) {
+        super.setEditing(editing, animated: animated)
+        if editing {
+            updateSnapshotForEditing()
+        } else {
+            updateSnapshotForViewing()
+        }
     }
     
     // function that sets up each cell in the list
