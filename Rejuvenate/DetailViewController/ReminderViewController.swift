@@ -31,7 +31,7 @@ class ReminderViewController: UICollectionViewController {
     }
     
     // this is basically just onCreate()
-    // intervene in the view controller's lifecycle to register the cell with the collection view and create the data source after is loads 
+    // intervene in the view controller's lifecycle to register the cell with the collection view and create the data source after is loads
     override func viewDidLoad() {
         super.viewDidLoad() // first call the super class implementation to do its own thing before your custom implementaitons
         
@@ -43,32 +43,49 @@ class ReminderViewController: UICollectionViewController {
             return collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: itemIdentifier)
         }
         
-        // set the nav bar title 
+        // set the nav bar title
         navigationItem.title = NSLocalizedString("Reminder", comment: "Reminder view controller title")
         
-        // apply a snapshot of the datasource to the collection view once it loads 
-        updateSnapshot()
+        // apply a snapshot of the datasource to the collection view once it loads
+        // REFACTORED --> this will only update the snapshot for the viewing mode, there is a different one for editing mode
+        updateSnapshotForViewing()
     }
     
     // function that sets up each cell in the list
     func cellRegistrationHandler(cell: UICollectionViewListCell, indexPath: IndexPath, row: Row) {
-        // style the content
-        var contentConfiguration = cell.defaultContentConfiguration()
-        contentConfiguration.text = text(for: row)
-        contentConfiguration.textProperties.font = UIFont.preferredFont(forTextStyle: row.textStyle) // row.textStyle changes based on the case
-        contentConfiguration.image = row.image
+        // get the section for the specified indexPath (element number)
+        let section = section(for: indexPath)
+        switch(section, row){ // use tuple to group the section and row into a single compound value
+        case (.view, _):
+            // style the content
+            var contentConfiguration = cell.defaultContentConfiguration()
+            contentConfiguration.text = text(for: row)
+            contentConfiguration.textProperties.font = UIFont.preferredFont(forTextStyle: row.textStyle) // row.textStyle changes based on the case
+            contentConfiguration.image = row.image
+            
+            // assign the content configuration style to collection's view cell
+            cell.contentConfiguration = contentConfiguration
+        default:
+            fatalError("Unexpected combination of section and row.")
+        }
         
-        // assign the content configuration style to collection's view cell
-        cell.contentConfiguration = contentConfiguration
         cell.tintColor = .rejuvenatePrimaryTint
     }
     
     // function that will update the snapshot to the most recent instance so the datasource will be up to date for the ui
-    private func updateSnapshot(){
+    // this one is for view mode (there is another one for editing mode)
+    private func updateSnapshotForViewing(){
         var snapshot = Snapshot()
-        snapshot.appendSections([.view]) // this is the Int part of the <Int, Row> --> the section that is the general container for the cells
+        snapshot.appendSections([.view]) // this is the Int part of the <Int, Row> --> the section that is the general container for the cells --> updated it's no longer Int but Section --> this is still the identifier for what section we're reading updates for
         snapshot.appendItems([.viewTitle, .viewDate, .viewTime, .viewNotes], toSection: .view) // provide 4 instances of Row as view items to the snapshot
         dataSource.apply(snapshot) // push the snapshot to the data source
+    }
+    
+    // update the snapshot when in editing mode
+    private func updateSnapshotForEditing(){
+        var snapshot = Snapshot() // reminder -- snapshot represents the current state of the data
+        snapshot.appendSections([.title, .date, .notes]) // add these sections to be monitored by the snapshot
+        dataSource.apply(snapshot)
     }
     
     // retrieves the section that the row we pass into it belongs to
