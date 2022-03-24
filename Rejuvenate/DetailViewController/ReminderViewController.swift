@@ -9,8 +9,8 @@ import UIKit
 
 // this class lays out the list of reminder details and supplies the list with the reminder details data
 class ReminderViewController: UICollectionViewController {
-    private typealias DataSource = UICollectionViewDiffableDataSource<Int, Row> // uses Int for section numbers and Row for list rows
-    private typealias Snapshot = NSDiffableDataSourceSnapshot<Int, Row>
+    private typealias DataSource = UICollectionViewDiffableDataSource<Section, Row> // uses Int for section numbers and Row for list rows
+    private typealias Snapshot = NSDiffableDataSourceSnapshot<Section, Row>
     
     var reminder: Reminder
     private var dataSource: DataSource!
@@ -66,9 +66,20 @@ class ReminderViewController: UICollectionViewController {
     // function that will update the snapshot to the most recent instance so the datasource will be up to date for the ui
     private func updateSnapshot(){
         var snapshot = Snapshot()
-        snapshot.appendSections([0]) // this is the Int part of the <Int, Row> --> the section that is the general container for the cells
-        snapshot.appendItems([.viewTitle, .viewDate, .viewTime, .viewNotes], toSection: 0) // provide 4 instances of Row as view items to the snapshot
+        snapshot.appendSections([.view]) // this is the Int part of the <Int, Row> --> the section that is the general container for the cells
+        snapshot.appendItems([.viewTitle, .viewDate, .viewTime, .viewNotes], toSection: .view) // provide 4 instances of Row as view items to the snapshot
         dataSource.apply(snapshot) // push the snapshot to the data source
+    }
+    
+    // retrieves the section that the row we pass into it belongs to
+    private func section(for indexPath: IndexPath) -> Section {
+        // when in view mode all the items are displayed in section 1
+        // when in editing mode all the title, date, and notes are separated into sections 1, 2, 3 respectively
+        let sectionNumber = isEditing ? indexPath.section + 1 : indexPath.section
+        guard let section = Section(rawValue: sectionNumber) else {
+            fatalError("Unable to find matching section")
+        }
+        return section
     }
     
     // access the coresponding reminder text based on the cases
