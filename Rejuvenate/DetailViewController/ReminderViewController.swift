@@ -20,6 +20,7 @@ class ReminderViewController: UICollectionViewController {
         self.reminder = reminder
         var listConfiguration = UICollectionLayoutListConfiguration(appearance: .insetGrouped) // this configures the layout style of the ui collection list view
         listConfiguration.showsSeparators = false // remove the lines between each cell
+        listConfiguration.headerMode = .firstItemInSection // set the header title for each row
         let listLayout = UICollectionViewCompositionalLayout.list(using: listConfiguration) // this sets the layout to the list configuration defined above
         super.init(collectionViewLayout: listLayout) // this calls the UICollectionViewController's initializer --> in swift a swfit subclass must call the super class's intiatilizer during intialization
     }
@@ -68,6 +69,10 @@ class ReminderViewController: UICollectionViewController {
         // get the section for the specified indexPath (element number)
         let section = section(for: indexPath)
         switch(section, row){ // use tuple to group the section and row into a single compound value
+        case (_, .header(let title)):
+            var contentConfiguration = cell.defaultContentConfiguration()
+            contentConfiguration.text = title
+            cell.contentConfiguration = contentConfiguration
         case (.view, _):
             // style the content
             var contentConfiguration = cell.defaultContentConfiguration()
@@ -89,7 +94,7 @@ class ReminderViewController: UICollectionViewController {
     private func updateSnapshotForViewing(){
         var snapshot = Snapshot()
         snapshot.appendSections([.view]) // this is the Int part of the <Int, Row> --> the section that is the general container for the cells --> updated it's no longer Int but Section --> this is still the identifier for what section we're reading updates for
-        snapshot.appendItems([.viewTitle, .viewDate, .viewTime, .viewNotes], toSection: .view) // provide 4 instances of Row as view items to the snapshot
+        snapshot.appendItems([.header(""), .viewTitle, .viewDate, .viewTime, .viewNotes], toSection: .view) // provide 4 instances of Row as view items to the snapshot --> we pass an empty header because we don't need one in view mode
         dataSource.apply(snapshot) // push the snapshot to the data source
     }
     
@@ -97,6 +102,9 @@ class ReminderViewController: UICollectionViewController {
     private func updateSnapshotForEditing(){
         var snapshot = Snapshot() // reminder -- snapshot represents the current state of the data
         snapshot.appendSections([.title, .date, .notes]) // add these sections to be monitored by the snapshot
+        snapshot.appendItems([.header(Section.title.name)], toSection: .title)
+        snapshot.appendItems([.header(Section.date.name)], toSection: .date)
+        snapshot.appendItems([.header(Section.notes.name)], toSection: .notes)
         dataSource.apply(snapshot)
     }
     
@@ -118,6 +126,7 @@ class ReminderViewController: UICollectionViewController {
         case .viewNotes: return reminder.notes
         case .viewTime: return reminder.dueDate.formatted(date: .omitted, time: .shortened)
         case .viewTitle: return reminder.title
+        default: return nil
         }
     }
 }
