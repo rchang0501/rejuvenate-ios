@@ -7,5 +7,35 @@
 
 import UIKit
 
+// this extension contains all the content configuration ui elements 
 extension ReminderViewController {
+    // container function for the default ui configuration of our list cells
+    func defaultConfiguration(for cell: UICollectionViewListCell, at row: Row) -> UIListContentConfiguration {
+        // style the content
+        var contentConfiguration = cell.defaultContentConfiguration()
+        contentConfiguration.text = text(for: row)
+        contentConfiguration.textProperties.font = UIFont.preferredFont(forTextStyle: row.textStyle) // row.textStyle changes based on the case
+        contentConfiguration.image = row.image
+        
+        return contentConfiguration
+    }
+    
+    // container function for the default ui configuration for headers
+    func headerConfiguration(for cell: UICollectionViewListCell, with title: String) -> UIListContentConfiguration {
+        var contentConfiguration = cell.defaultContentConfiguration()
+        contentConfiguration.text = title
+        
+        return contentConfiguration
+    }
+    
+    // access the coresponding reminder text based on the cases
+    func text(for row: Row ) -> String? {
+        switch row {
+        case .viewDate: return reminder.dueDate.dayText
+        case .viewNotes: return reminder.notes
+        case .viewTime: return reminder.dueDate.formatted(date: .omitted, time: .shortened)
+        case .viewTitle: return reminder.title
+        default: return nil
+        }
+    }
 }
