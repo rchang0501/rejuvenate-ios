@@ -7,7 +7,7 @@
 
 import UIKit
 
-// this extension contains all the content configuration ui elements 
+// this extension contains all the content configuration ui elements
 extension ReminderViewController {
     // container function for the default ui configuration of our list cells
     func defaultConfiguration(for cell: UICollectionViewListCell, at row: Row) -> UIListContentConfiguration {
@@ -25,6 +25,13 @@ extension ReminderViewController {
         var contentConfiguration = cell.defaultContentConfiguration()
         contentConfiguration.text = title
         
+        return contentConfiguration
+    }
+    
+    // updates the text field's current text display value 
+    func titleConfiguration(for cell: UICollectionViewListCell, with title: String?) -> TextFieldContentView.Configuration {
+        var contentConfiguration = cell.textFieldConfiguration() // .textFieldConfiguration() is an extension defined in TextFieldContentView.swift
+        contentConfiguration.text = title // assign the text field text to whatever the title is at the moment (it will initially be the current title and can be deleted and altered to whatever else) 
         return contentConfiguration
     }
     

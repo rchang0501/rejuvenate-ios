@@ -9,7 +9,7 @@ import UIKit
 
 // this class lays out the list of reminder details and supplies the list with the reminder details data
 class ReminderViewController: UICollectionViewController {
-    private typealias DataSource = UICollectionViewDiffableDataSource<Section, Row> // uses Int for section numbers and Row for list rows
+    private typealias DataSource = UICollectionViewDiffableDataSource<Section, Row> // uses Int (now Section) for section numbers and Row for list rows
     private typealias Snapshot = NSDiffableDataSourceSnapshot<Section, Row>
     
     var reminder: Reminder
@@ -74,6 +74,8 @@ class ReminderViewController: UICollectionViewController {
         case (.view, _):
             // assign the content configuration style to collection's view cell
             cell.contentConfiguration = defaultConfiguration(for: cell, at: row)
+        case(.title, .editText(let title)):
+            cell.contentConfiguration = titleConfiguration(for: cell, with: title)
         default:
             fatalError("Unexpected combination of section and row.")
         }
@@ -94,7 +96,7 @@ class ReminderViewController: UICollectionViewController {
     private func updateSnapshotForEditing(){
         var snapshot = Snapshot() // reminder -- snapshot represents the current state of the data
         snapshot.appendSections([.title, .date, .notes]) // add these sections to be monitored by the snapshot
-        snapshot.appendItems([.header(Section.title.name)], toSection: .title)
+        snapshot.appendItems([.header(Section.title.name), .editText(reminder.title)], toSection: .title)
         snapshot.appendItems([.header(Section.date.name)], toSection: .date)
         snapshot.appendItems([.header(Section.notes.name)], toSection: .notes)
         dataSource.apply(snapshot)

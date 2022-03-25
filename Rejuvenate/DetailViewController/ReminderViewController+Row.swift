@@ -14,6 +14,7 @@ extension ReminderViewController {
         case viewNotes
         case viewTime
         case viewTitle
+        case editText(String)
         
         // get the image name based on the case
         var imageName: String? {
