@@ -28,10 +28,24 @@ extension ReminderViewController {
         return contentConfiguration
     }
     
-    // updates the text field's current text display value 
+    // updates the text field's current text display value
     func titleConfiguration(for cell: UICollectionViewListCell, with title: String?) -> TextFieldContentView.Configuration {
         var contentConfiguration = cell.textFieldConfiguration() // .textFieldConfiguration() is an extension defined in TextFieldContentView.swift
-        contentConfiguration.text = title // assign the text field text to whatever the title is at the moment (it will initially be the current title and can be deleted and altered to whatever else) 
+        contentConfiguration.text = title // assign the text field text to whatever the title is at the moment (it will initially be the current title and can be deleted and altered to whatever else)
+        return contentConfiguration
+    }
+    
+    // sets the calendar edit view to the desired configuration
+    func dateConfiguration(for cell: UICollectionViewListCell, with date: Date) -> DatePickerContentView.Configuration {
+        var contentConfiguration = cell.datePickerConfiguration()
+        contentConfiguration.date = date
+        return contentConfiguration
+    }
+    
+    // sets the notes edit view to the desired configuration
+    func notesConfiguration(for cell: UICollectionViewListCell, with notes: String?) -> TextViewContentView.Configuration {
+        var contentConfiguration = cell.textViewConfiguration()
+        contentConfiguration.text = notes
         return contentConfiguration
     }
     

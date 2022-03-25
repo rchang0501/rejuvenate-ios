@@ -14,7 +14,8 @@ extension ReminderViewController {
         case viewNotes
         case viewTime
         case viewTitle
-        case editText(String)
+        case editDate(Date)
+        case editText(String?)
         
         // get the image name based on the case
         var imageName: String? {
@@ -33,7 +34,7 @@ extension ReminderViewController {
             return UIImage(systemName: imageName, withConfiguration: configuration)
         }
         
-        // emphasize the headline text style for the viewTitle case 
+        // emphasize the headline text style for the viewTitle case
         var textStyle: UIFont.TextStyle {
             switch self {
             case .viewTitle: return .headline
