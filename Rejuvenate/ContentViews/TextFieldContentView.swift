@@ -13,6 +13,7 @@ class TextFieldContentView: UIView, UIContentView {
     
     struct Configuration: UIContentConfiguration {
         var text: String? = ""
+        var onChange: (String)->Void = { _ in }
         
         func makeContentView() -> UIView & UIContentView {
             return TextFieldContentView(self)
@@ -26,7 +27,7 @@ class TextFieldContentView: UIView, UIContentView {
             configure(configuration: configuration)
         }
     }
-        
+    
     // hard set the content size
     override var intrinsicContentSize: CGSize {
         CGSize(width: 0, height: 44)
@@ -41,7 +42,10 @@ class TextFieldContentView: UIView, UIContentView {
         // top and bottom padding set to 0 forces the texfield to span the entire height of the superview
         addPinnedSubview(textField, insets: UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16))
         
-        textField.clearButtonMode = .whileEditing // creates a trialing clear button in the textview when there is content to clear 
+        // call the didChange function whenever the textField detects an editing change 
+        textField.addTarget(self, action: #selector(didChange(_:)), for: .editingChanged)
+        
+        textField.clearButtonMode = .whileEditing // creates a trialing clear button in the textview when there is content to clear
     }
     
     // UIView subclasses that implement custom initializers must also use init(coder:)
@@ -53,6 +57,11 @@ class TextFieldContentView: UIView, UIContentView {
         guard let configuration = configuration as? Configuration else { return } // cast configuraiton as a TextFieldContentView.Configuration, otherwise, return to the function calling point
         textField.text = configuration.text // assign the text field text to whatever was in the configuration ("" initially but whatever else when they start typing)
         
+    }
+    
+    @objc private func didChange(_ sender: UITextField) {
+        guard let configuration = configuration as? TextFieldContentView.Configuration else { return }
+        configuration.onChange(textField.text ?? "") // if the textfield is blank then return "" otherwise return the textfield
     }
 }
 

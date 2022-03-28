@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Reminder: Identifiable {
+struct Reminder: Equatable, Identifiable {
     // don't have to create an initializer for these properties
     // swift provides a memberwise intiatizer that automatically initailizes properties of a structure whether or not they have default values
     var id: String = UUID().uuidString

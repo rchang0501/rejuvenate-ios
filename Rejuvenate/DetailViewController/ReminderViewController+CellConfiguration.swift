@@ -32,6 +32,9 @@ extension ReminderViewController {
     func titleConfiguration(for cell: UICollectionViewListCell, with title: String?) -> TextFieldContentView.Configuration {
         var contentConfiguration = cell.textFieldConfiguration() // .textFieldConfiguration() is an extension defined in TextFieldContentView.swift
         contentConfiguration.text = title // assign the text field text to whatever the title is at the moment (it will initially be the current title and can be deleted and altered to whatever else)
+        contentConfiguration.onChange = { [weak self] title in
+            self?.workingReminder.title = title // when change is detected, change the working title to the title in the textField 
+        }
         return contentConfiguration
     }
     

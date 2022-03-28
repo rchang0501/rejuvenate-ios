@@ -13,11 +13,13 @@ class ReminderViewController: UICollectionViewController {
     private typealias Snapshot = NSDiffableDataSourceSnapshot<Section, Row>
     
     var reminder: Reminder
+    var workingReminder: Reminder // stores edits until user chooses to confirm or cancel
     private var dataSource: DataSource!
     
     // object initializer (constructor)
     init(reminder: Reminder) {
         self.reminder = reminder
+        self.workingReminder = reminder
         var listConfiguration = UICollectionLayoutListConfiguration(appearance: .insetGrouped) // this configures the layout style of the ui collection list view
         listConfiguration.showsSeparators = false // remove the lines between each cell
         listConfiguration.headerMode = .firstItemInSection // set the header title for each row
@@ -58,9 +60,9 @@ class ReminderViewController: UICollectionViewController {
     override func setEditing(_ editing: Bool, animated: Bool) {
         super.setEditing(editing, animated: animated)
         if editing {
-            updateSnapshotForEditing()
+            prepareForEditing()
         } else {
-            updateSnapshotForViewing()
+            prepareForViewing()
         }
     }
     
@@ -87,6 +89,14 @@ class ReminderViewController: UICollectionViewController {
         cell.tintColor = .rejuvenatePrimaryTint
     }
     
+    // function to set up the editing functionality
+    private func prepareForViewing(){
+        if workingReminder != reminder {
+            reminder = workingReminder
+        }
+        updateSnapshotForViewing()
+    }
+    
     // function that will update the snapshot to the most recent instance so the datasource will be up to date for the ui
     // this one is for view mode (there is another one for editing mode)
     private func updateSnapshotForViewing(){
@@ -94,6 +104,11 @@ class ReminderViewController: UICollectionViewController {
         snapshot.appendSections([.view]) // this is the Int part of the <Int, Row> --> the section that is the general container for the cells --> updated it's no longer Int but Section --> this is still the identifier for what section we're reading updates for
         snapshot.appendItems([.header(""), .viewTitle, .viewDate, .viewTime, .viewNotes], toSection: .view) // provide 4 instances of Row as view items to the snapshot --> we pass an empty header because we don't need one in view mode
         dataSource.apply(snapshot) // push the snapshot to the data source
+    }
+    
+    // function to set up the editing functionality
+    private func prepareForEditing(){
+        updateSnapshotForEditing()
     }
     
     // update the snapshot when in editing mode
