@@ -12,14 +12,20 @@ class ReminderViewController: UICollectionViewController {
     private typealias DataSource = UICollectionViewDiffableDataSource<Section, Row> // uses Int (now Section) for section numbers and Row for list rows
     private typealias Snapshot = NSDiffableDataSourceSnapshot<Section, Row>
     
-    var reminder: Reminder
+    var reminder: Reminder {
+        didSet { // observes when the value is changed
+            onChange(reminder) // if it is changed, call onChange, passing in the reminder 
+        }
+    }
     var workingReminder: Reminder // stores edits until user chooses to confirm or cancel
+    var onChange: (Reminder)->Void // will define behaviors to perform every time a reminder changes
     private var dataSource: DataSource!
     
     // object initializer (constructor)
-    init(reminder: Reminder) {
+    init(reminder: Reminder, onChange: @escaping (Reminder)->Void) {
         self.reminder = reminder
         self.workingReminder = reminder
+        self.onChange = onChange
         var listConfiguration = UICollectionLayoutListConfiguration(appearance: .insetGrouped) // this configures the layout style of the ui collection list view
         listConfiguration.showsSeparators = false // remove the lines between each cell
         listConfiguration.headerMode = .firstItemInSection // set the header title for each row
@@ -97,7 +103,7 @@ class ReminderViewController: UICollectionViewController {
     
     // function to set up the editing functionality
     private func prepareForViewing(){
-        navigationItem.leftBarButtonItem = nil // remove the cancel button from the view when in viewing mode 
+        navigationItem.leftBarButtonItem = nil // remove the cancel button from the view when in viewing mode
         if workingReminder != reminder {
             reminder = workingReminder
         }
