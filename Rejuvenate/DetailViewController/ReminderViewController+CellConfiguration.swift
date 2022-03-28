@@ -33,7 +33,7 @@ extension ReminderViewController {
         var contentConfiguration = cell.textFieldConfiguration() // .textFieldConfiguration() is an extension defined in TextFieldContentView.swift
         contentConfiguration.text = title // assign the text field text to whatever the title is at the moment (it will initially be the current title and can be deleted and altered to whatever else)
         contentConfiguration.onChange = { [weak self] title in
-            self?.workingReminder.title = title // when change is detected, change the working title to the title in the textField 
+            self?.workingReminder.title = title // when change is detected, change the working title to the title in the textField
         }
         return contentConfiguration
     }
@@ -42,6 +42,9 @@ extension ReminderViewController {
     func dateConfiguration(for cell: UICollectionViewListCell, with date: Date) -> DatePickerContentView.Configuration {
         var contentConfiguration = cell.datePickerConfiguration()
         contentConfiguration.date = date
+        contentConfiguration.onChange = { [weak self] dueDate in
+            self?.workingReminder.dueDate = dueDate
+        }
         return contentConfiguration
     }
     
@@ -49,6 +52,9 @@ extension ReminderViewController {
     func notesConfiguration(for cell: UICollectionViewListCell, with notes: String?) -> TextViewContentView.Configuration {
         var contentConfiguration = cell.textViewConfiguration()
         contentConfiguration.text = notes
+        contentConfiguration.onChange = { [weak self] notes in
+            self?.workingReminder.notes = notes
+        }
         return contentConfiguration
     }
     
