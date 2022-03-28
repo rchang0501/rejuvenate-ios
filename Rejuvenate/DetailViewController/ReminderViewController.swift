@@ -89,8 +89,15 @@ class ReminderViewController: UICollectionViewController {
         cell.tintColor = .rejuvenatePrimaryTint
     }
     
+    // function to handle the cancel button in editing mode
+    @objc func didCancelEdit() {
+        workingReminder = reminder // reset the working value to the og value to prepare for a different editing session
+        setEditing(false, animated: true) // remove the editing view
+    }
+    
     // function to set up the editing functionality
     private func prepareForViewing(){
+        navigationItem.leftBarButtonItem = nil // remove the cancel button from the view when in viewing mode 
         if workingReminder != reminder {
             reminder = workingReminder
         }
@@ -108,6 +115,7 @@ class ReminderViewController: UICollectionViewController {
     
     // function to set up the editing functionality
     private func prepareForEditing(){
+        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(didCancelEdit)) // setting up the cancel button in the editing mode
         updateSnapshotForEditing()
     }
     
