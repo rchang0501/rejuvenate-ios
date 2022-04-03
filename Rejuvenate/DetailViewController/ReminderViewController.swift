@@ -18,6 +18,7 @@ class ReminderViewController: UICollectionViewController {
         }
     }
     var workingReminder: Reminder // stores edits until user chooses to confirm or cancel
+    var isAddingNewReminder = false // track if it's in editing mode or adding mode
     var onChange: (Reminder)->Void // will define behaviors to perform every time a reminder changes
     private var dataSource: DataSource!
     
@@ -53,7 +54,7 @@ class ReminderViewController: UICollectionViewController {
         }
         
         // set the nav bar title
-        navigationItem.title = NSLocalizedString("Reminder", comment: "Reminder view controller title")
+        navigationItem.title = NSLocalizedString("Skincare Reminder", comment: "Reminder view controller title")
         // set the nav bar's edit button in the top right corner
         navigationItem.rightBarButtonItem = editButtonItem
         
@@ -68,7 +69,11 @@ class ReminderViewController: UICollectionViewController {
         if editing {
             prepareForEditing()
         } else {
-            prepareForViewing()
+            if !isAddingNewReminder{
+                prepareForViewing() // prepare for view if not creating a new reminder
+            } else {
+                onChange(workingReminder)
+            }
         }
     }
     
