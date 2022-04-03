@@ -13,6 +13,12 @@ class ReminderListViewController: UICollectionViewController {
     
     var dataSource: DataSource! // this implicity unwraps DataSource and ensures it will be assigned a value -> basically just an lateinit var
     var reminders: [Reminder] = Reminder.sampleData
+    var filteredReminders: [Reminder] { // array that contains the filtered reminders
+        return reminders.filter {
+            listStyle.shouldInclude(date: $0.dueDate)
+        }.sorted{$0.dueDate < $1.dueDate} // sort the list in asc order by date
+    }
+    var listStyle: ReminderListStyle = .today // determines the filter type
     
     // this is basically just oncreate
     override func viewDidLoad() {
@@ -44,7 +50,7 @@ class ReminderListViewController: UICollectionViewController {
     // function to show the detail view when a cell in the collection is tapped
     override func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
         // set up properties
-        let id = reminders[indexPath.item].id // retrieve the id of the reminder at the specified index path --> indexPath.item is an int so it can be used as an array index to retrieve the correct element
+        let id = filteredReminders[indexPath.item].id // retrieve the id of the reminder at the specified index path --> indexPath.item is an int so it can be used as an array index to retrieve the correct element
         
         // call the showDetail function to display the detail view
         showDetail(for: id) // this function adds the detail view controller onto the navigation stack, enabling the detai view to be pushed onto the screen. a back button appears automatically as the leading element in the navigation bar

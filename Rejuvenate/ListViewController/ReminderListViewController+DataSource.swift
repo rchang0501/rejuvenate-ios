@@ -15,10 +15,11 @@ extension ReminderListViewController {
     typealias DataSource = UICollectionViewDiffableDataSource<Int, Reminder.ID> // this is basically just assigning the diffable data source type to a new alias called DataSource. diffable data updates and animates the ui when data changes -> basically just live data
     typealias Snapshot = NSDiffableDataSourceSnapshot<Int, Reminder.ID> // the diffable data source manages data using snapshots -> snapshots represent the state of the data at a certain point in time (like context) -> will be applying the snap shot to display data in the ui
     
-    func updateSnapshot(reloading ids: [Reminder.ID] = []) { // initializing to empty array allows the function to be called without passing in any parameters
+    func updateSnapshot(reloading idsThatChanged: [Reminder.ID] = []) { // initializing to empty array allows the function to be called without passing in any parameters
+        let ids = idsThatChanged.filter { id in filteredReminders.contains(where: { $0.id == id }) }
         var snapShot = Snapshot() // new empty snapshot variable
         snapShot.appendSections([0]) // add the section to it
-        snapShot.appendItems(reminders.map{$0.id}) // map returns a new array containing the titles ($0 means the first instance in the sampleData array)
+        snapShot.appendItems(filteredReminders.map{$0.id}) // map returns a new array containing the titles ($0 means the first instance in the sampleData array)
         if !ids.isEmpty {
             snapShot.reloadItems(ids) // this method tells the snapshot which reminders the user changed
         }
