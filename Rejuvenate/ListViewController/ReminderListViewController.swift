@@ -19,8 +19,11 @@ class ReminderListViewController: UICollectionViewController {
         }.sorted{$0.dueDate < $1.dueDate} // sort the list in asc order by date
     }
     var listStyle: ReminderListStyle = .today // determines the filter type
+    let listStyleSegmentedControl = UISegmentedControl(items: [ // segmented control button
+        ReminderListStyle.today.name, ReminderListStyle.future.name, ReminderListStyle.all.name
+    ])
     
-    // this is basically just oncreate
+    // this is basically just oncreate/onviewcreated
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -38,11 +41,17 @@ class ReminderListViewController: UICollectionViewController {
             return collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: itemIdentifier) // the dequeueConfiguredReusableCell is the same as recycler view in android
         }
         
+        // add reminder button
         let addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(didPressAddButton(_:))) // add new reminder button in top right of screen
         addButton.accessibilityLabel = NSLocalizedString("Add reminder", comment: "Add button accessibility label")
         navigationItem.rightBarButtonItem = addButton
         
-        updateSnapshot() //this applies the new snapshot to the datasource 
+        // title bar segmented control buttons
+        listStyleSegmentedControl.selectedSegmentIndex = listStyle.rawValue
+        listStyleSegmentedControl.addTarget(self, action: #selector(didChangeListStyle(_:)), for: .valueChanged)
+        navigationItem.titleView = listStyleSegmentedControl // set the title to the segmeneted control button
+        
+        updateSnapshot() //this applies the new snapshot to the datasource
         
         collectionView.dataSource = dataSource // collectionView is from the super class UICollectionViewController and .dataSource was defined in this file
     }
@@ -61,10 +70,10 @@ class ReminderListViewController: UICollectionViewController {
     // this function will handle showing the detail view
     func showDetail(for id: Reminder.ID) {
         // set up properties
-        let reminder = reminder(for: id) // get the remidner object based on the id 
+        let reminder = reminder(for: id) // get the remidner object based on the id
         let viewController = ReminderViewController(reminder: reminder) { [weak self] reminder in // instatiate a new detail view
             self?.update(reminder, with: reminder.id) // updates the array of reminders in the data source with the edited reminder
-            self?.updateSnapshot(reloading: [reminder.id]) // updates the snapshot and thus ui to refelct the changes made 
+            self?.updateSnapshot(reloading: [reminder.id]) // updates the snapshot and thus ui to refelct the changes made
         }
         
         // push the detail view controller onto the navigation controller stack
