@@ -21,13 +21,23 @@ class ReminderListViewController: UICollectionViewController {
     var listStyle: ReminderListStyle = .today // determines the filter type
     let listStyleSegmentedControl = UISegmentedControl(items: [ // segmented control button
         ReminderListStyle.today.name, ReminderListStyle.future.name, ReminderListStyle.all.name
-    ])
+                                                              ])
+    
+    var headerView: ProgressHeaderView?
+    var progress: CGFloat {
+        let chunkSize = 1.0 / CGFloat(filteredReminders.count)
+        let progress = filteredReminders.reduce(0.0) {
+            let chunk = $1.isComplete ? chunkSize : 0
+            return $0 + chunk
+        }
+        return progress
+    }
     
     // this is basically just oncreate/onviewcreated
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // Do any additional setup after loading the view.
+        collectionView.backgroundColor = .rejuvenateGradientFutureBegin
         
         let listLayout = listLayout()
         collectionView.collectionViewLayout = listLayout // this assigns the listLayout defined in the private func to the ui's collection view
@@ -39,6 +49,11 @@ class ReminderListViewController: UICollectionViewController {
         // the closure accepts two inputs: an index path to the location of the cell and an itemIdentifier
         dataSource = DataSource(collectionView: collectionView) { (collectionView: UICollectionView, indexPath: IndexPath, itemIdentifier: Reminder.ID) in // in separates the parameters from the return type in the closure
             return collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: itemIdentifier) // the dequeueConfiguredReusableCell is the same as recycler view in android
+        }
+        
+        let headerRegistration = UICollectionView.SupplementaryRegistration(elementKind: ProgressHeaderView.elementKind, handler: supplementaryRegistrationHandler)
+        dataSource.supplementaryViewProvider = { supplementaryView, elementKind, indexPath in
+            return self.collectionView.dequeueConfiguredReusableSupplementary(using: headerRegistration, for: indexPath)
         }
         
         // add reminder button
@@ -67,6 +82,14 @@ class ReminderListViewController: UICollectionViewController {
         return false // your return false to ensure that hte cell doesn't enter a selected mode when it is tapped, instead we just want to show the detail view
     }
     
+    // for progress view
+    override func collectionView(_ collectionView: UICollectionView, willDisplaySupplementaryView view: UICollectionReusableView, forElementKind elementKind: String, at indexPath: IndexPath) {
+        guard elementKind == ProgressHeaderView.elementKind, let progressView = view as? ProgressHeaderView else {
+            return
+        }
+        progressView.progress = progress
+    }
+    
     // this function will handle showing the detail view
     func showDetail(for id: Reminder.ID) {
         // set up properties
@@ -84,6 +107,7 @@ class ReminderListViewController: UICollectionViewController {
     // a compositional layout lets you contstruct views by combining different components e.g. sections, groups, and items
     private func listLayout() -> UICollectionViewCompositionalLayout {
         var listConfiguration = UICollectionLayoutListConfiguration(appearance: .grouped) // this creates a section in a list layout (the outer container view that surrounds the group of items)
+        listConfiguration.headerMode = .supplementary
         listConfiguration.showsSeparators = false
         listConfiguration.trailingSwipeActionsConfigurationProvider = makeSwipeActions // sets the trailing swipe action to the custom delete swipe action
         listConfiguration.backgroundColor = .clear
@@ -101,5 +125,10 @@ class ReminderListViewController: UICollectionViewController {
         }
         deleteAction.backgroundColor = .white
         return UISwipeActionsConfiguration(actions: [deleteAction])
+    }
+    
+    // for the progress view
+    private func supplementaryRegistrationHandler(progressView: ProgressHeaderView, elementKind: String, indexPath: IndexPath) {
+        headerView = progressView
     }
 }

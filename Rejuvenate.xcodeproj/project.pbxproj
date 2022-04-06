@@ -32,6 +32,7 @@
 		917A784127E7C1E0001C1BBE /* ReminderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 917A784027E7C1E0001C1BBE /* ReminderViewController.swift */; };
 		917A784327E7C219001C1BBE /* ReminderViewController+Row.swift in Sources */ = {isa = PBXBuildFile; fileRef = 917A784227E7C218001C1BBE /* ReminderViewController+Row.swift */; };
 		91CB3B9E27FA162B0038587B /* ReminderListStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91CB3B9D27FA162B0038587B /* ReminderListStyle.swift */; };
+		91FA4AD427FD079500D6E224 /* ProgressHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91FA4AD327FD079500D6E224 /* ProgressHeaderView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -81,6 +82,7 @@
 		917A784027E7C1E0001C1BBE /* ReminderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderViewController.swift; sourceTree = "<group>"; };
 		917A784227E7C218001C1BBE /* ReminderViewController+Row.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ReminderViewController+Row.swift"; sourceTree = "<group>"; };
 		91CB3B9D27FA162B0038587B /* ReminderListStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderListStyle.swift; sourceTree = "<group>"; };
+		91FA4AD327FD079500D6E224 /* ProgressHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressHeaderView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -192,6 +194,7 @@
 				917A780127E3BE17001C1BBE /* ReminderListViewController.swift */,
 				917A783527E78707001C1BBE /* ReminderListViewController+DataSource.swift */,
 				917A783A27E7A002001C1BBE /* ReminderListViewController+Actions.swift */,
+				91FA4AD327FD079500D6E224 /* ProgressHeaderView.swift */,
 			);
 			path = ListViewController;
 			sourceTree = "<group>";
@@ -346,6 +349,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				91FA4AD427FD079500D6E224 /* ProgressHeaderView.swift in Sources */,
 				911E743327EE677800B4419E /* UIView+PinnedSubview.swift in Sources */,
 				911E742E27ED23CB00B4419E /* ReminderViewController+Section.swift in Sources */,
 				911E743B27EE7D1800B4419E /* DatePickerContentView.swift in Sources */,

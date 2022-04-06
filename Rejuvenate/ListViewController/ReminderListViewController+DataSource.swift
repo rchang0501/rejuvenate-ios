@@ -24,6 +24,7 @@ extension ReminderListViewController {
             snapShot.reloadItems(ids) // this method tells the snapshot which reminders the user changed
         }
         dataSource.apply(snapShot) // applying the snapshot reflects the changes in the ui
+        headerView?.progress = progress
     }
     
     func cellRegistrationHandler(cell: UICollectionViewListCell, indexPath: IndexPath, id: Reminder.ID) {
