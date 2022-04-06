@@ -70,9 +70,11 @@ class ProgressHeaderView: UICollectionReusableView {
         heightConstraint?.isActive = true
         
         backgroundColor = .clear
-        containerView.backgroundColor = .clear
-        //containerView.backgroundColor = .lightGray
-        upperView.backgroundColor = .rejuvenateProgressUpperBackground
-        lowerView.backgroundColor = .rejuvenateProgressLowerBackground
+        //containerView.backgroundColor = .clear
+        containerView.backgroundColor = .rejuvenateProgressUpperBackground
+        //upperView.backgroundColor = .rejuvenateProgressUpperBackground
+        //lowerView.backgroundColor = .rejuvenateProgressLowerBackground
+        upperView.backgroundColor = .bkgGray
+        lowerView.backgroundColor = .sajeGreen
     }
 }

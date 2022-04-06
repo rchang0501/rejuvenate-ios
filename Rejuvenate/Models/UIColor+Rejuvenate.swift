@@ -59,5 +59,21 @@ extension UIColor {
     static var rejuvenateProgressUpperBackground: UIColor {
         UIColor(named: "RejuvenateProgressUpperBackground") ?? .systemGray6
     }
+    
+    static var bkgGray: UIColor {
+        UIColor(named: "BackgroundGray") ?? .systemGray6
+    }
+    
+    static var sajeGreen: UIColor {
+        UIColor(named: "SajeGreen") ?? .systemGray6
+    }
+    
+    static var lightBlue: UIColor {
+        UIColor(named: "LightBlue") ?? .systemGray6
+    }
+    
+    static var primaryTint: UIColor {
+        UIColor(named: "PrimaryTint") ?? .systemGray6
+    }
 }
 

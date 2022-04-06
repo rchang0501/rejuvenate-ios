@@ -45,7 +45,8 @@ extension ReminderListViewController {
         
         // create the cell background style
         var backgroundConfiguration = UIBackgroundConfiguration.listGroupedCell()
-        backgroundConfiguration.backgroundColor = .rejuvenateListCellBackground
+        //backgroundConfiguration.backgroundColor = .rejuvenateListCellBackground
+        backgroundConfiguration.backgroundColor = .clear
         cell.backgroundConfiguration = backgroundConfiguration
     }
     

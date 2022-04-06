@@ -37,7 +37,8 @@ class ReminderListViewController: UICollectionViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        collectionView.backgroundColor = .rejuvenateGradientFutureBegin
+        //collectionView.backgroundColor = .rejuvenateGradientFutureBegin
+        //collectionView.backgroundColor = .primaryTint
         
         let listLayout = listLayout()
         collectionView.collectionViewLayout = listLayout // this assigns the listLayout defined in the private func to the ui's collection view
