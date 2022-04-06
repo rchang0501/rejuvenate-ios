@@ -15,7 +15,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
-        UINavigationBar.appearance().tintColor = .rejuvenatePrimaryTint // changes the default appearance for all nav bars in the app
+        UINavigationBar.appearance().tintColor = .sajeGreenDark // changes the default appearance for all nav bars in the app
         UINavigationBar.appearance().backgroundColor = .rejuvenateNavigationBackground
         let navBarAppearance = UINavigationBarAppearance()
         navBarAppearance.configureWithOpaqueBackground() // set opaque colors for the nav bar (so when scrolling the elements won't overlap with the nav bar text

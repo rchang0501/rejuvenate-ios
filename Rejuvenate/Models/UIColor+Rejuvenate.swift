@@ -68,6 +68,10 @@ extension UIColor {
         UIColor(named: "SajeGreen") ?? .systemGray6
     }
     
+    static var sajeGreenDark: UIColor {
+        UIColor(named: "SajeGreenDark") ?? .systemGray6
+    }
+    
     static var lightBlue: UIColor {
         UIColor(named: "LightBlue") ?? .systemGray6
     }

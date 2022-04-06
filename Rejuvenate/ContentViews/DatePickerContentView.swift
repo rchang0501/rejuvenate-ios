@@ -30,6 +30,7 @@ class DatePickerContentView: UIView, UIContentView {
         addPinnedSubview(datePicker)
         datePicker.addTarget(self, action: #selector(didPick(_:)), for: .valueChanged)
         datePicker.preferredDatePickerStyle = .inline
+        datePicker.tintColor = .sajeGreenDark
     }
     
     required init?(coder: NSCoder) {

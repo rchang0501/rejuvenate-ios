@@ -16,6 +16,7 @@ extension ReminderViewController {
         contentConfiguration.text = text(for: row)
         contentConfiguration.textProperties.font = UIFont.preferredFont(forTextStyle: row.textStyle) // row.textStyle changes based on the case
         contentConfiguration.image = row.image
+        contentConfiguration.imageProperties.tintColor = .sajeGreenDark
         
         return contentConfiguration
     }
