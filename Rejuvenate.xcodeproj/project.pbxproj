@@ -33,6 +33,7 @@
 		917A784327E7C219001C1BBE /* ReminderViewController+Row.swift in Sources */ = {isa = PBXBuildFile; fileRef = 917A784227E7C218001C1BBE /* ReminderViewController+Row.swift */; };
 		91CB3B9E27FA162B0038587B /* ReminderListStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91CB3B9D27FA162B0038587B /* ReminderListStyle.swift */; };
 		91FA4AD427FD079500D6E224 /* ProgressHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91FA4AD327FD079500D6E224 /* ProgressHeaderView.swift */; };
+		91FA4AD627FD110300D6E224 /* CAGradientLayer+ListStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91FA4AD527FD110300D6E224 /* CAGradientLayer+ListStyle.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -83,6 +84,7 @@
 		917A784227E7C218001C1BBE /* ReminderViewController+Row.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ReminderViewController+Row.swift"; sourceTree = "<group>"; };
 		91CB3B9D27FA162B0038587B /* ReminderListStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderListStyle.swift; sourceTree = "<group>"; };
 		91FA4AD327FD079500D6E224 /* ProgressHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressHeaderView.swift; sourceTree = "<group>"; };
+		91FA4AD527FD110300D6E224 /* CAGradientLayer+ListStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CAGradientLayer+ListStyle.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -184,6 +186,7 @@
 				917A783027E421C8001C1BBE /* UIColor+Rejuvenate.swift */,
 				917A783227E42412001C1BBE /* Data+Rejuvenate.swift */,
 				91CB3B9D27FA162B0038587B /* ReminderListStyle.swift */,
+				91FA4AD527FD110300D6E224 /* CAGradientLayer+ListStyle.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -368,6 +371,7 @@
 				911E743027ED5FE100B4419E /* ReminderViewController+CellConfiguration.swift in Sources */,
 				917A783627E78707001C1BBE /* ReminderListViewController+DataSource.swift in Sources */,
 				917A783327E42412001C1BBE /* Data+Rejuvenate.swift in Sources */,
+				91FA4AD627FD110300D6E224 /* CAGradientLayer+ListStyle.swift in Sources */,
 				917A782F27E3D421001C1BBE /* Reminder.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
