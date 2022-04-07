@@ -40,6 +40,14 @@ class ReminderListViewController: UICollectionViewController {
         //collectionView.backgroundColor = .rejuvenateGradientFutureBegin
         //collectionView.backgroundColor = .primaryTint
         
+        if #available(iOS 15, *) {
+            let appearance = UINavigationBarAppearance()
+            appearance.configureWithOpaqueBackground()
+            appearance.backgroundColor = .rejuvenateNavigationBackground
+            navigationController?.navigationBar.standardAppearance = appearance;
+            navigationController?.navigationBar.scrollEdgeAppearance = navigationController?.navigationBar.standardAppearance
+        }
+        
         let listLayout = listLayout()
         collectionView.collectionViewLayout = listLayout // this assigns the listLayout defined in the private func to the ui's collection view
         
