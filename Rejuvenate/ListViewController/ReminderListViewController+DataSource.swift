@@ -110,7 +110,15 @@ extension ReminderListViewController {
     
     // method that adds a reminder to the list of reminders
     func add(_ reminder: Reminder) {
-        reminders.append(reminder)
+        var reminder = reminder
+        do {
+            let idFromStore = try reminderStore.save(reminder)
+            reminder.id = idFromStore
+            reminders.append(reminder)
+        } catch RejuvenateError.accessDenied {
+        } catch {
+            showError(error)
+        }
     }
     
     // remove reminder by id

@@ -61,5 +61,21 @@ class ReminderStore {
         
         return reminders
     }
+    
+    @discardableResult
+    func save(_ reminder: Reminder) throws -> Reminder.ID {
+        guard isAvailable else {
+            throw RejuvenateError.accessDenied
+        }
+        let ekReminder: EKReminder
+        do {
+            ekReminder = try read(with: reminder.id)
+        } catch {
+            ekReminder = EKReminder(eventStore: ekStore)
+        }
+        ekReminder.update(using: reminder, in: ekStore)
+        try ekStore.save(ekReminder, commit: true)
+        return ekReminder.calendarItemIdentifier
+    }
 }
 
