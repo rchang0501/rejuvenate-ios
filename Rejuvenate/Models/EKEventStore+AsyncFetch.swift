@@ -8,7 +8,7 @@
 import Foundation
 import EventKit
 
-// class that stores the data for persistence and asynchronously fetches it
+// class that asynchronously fetches reminders from EventKit
 extension EKEventStore {
     func fetchReminders(matching predicate: NSPredicate) async throws -> [EKReminder] {
         try await withCheckedThrowingContinuation { continuation in
