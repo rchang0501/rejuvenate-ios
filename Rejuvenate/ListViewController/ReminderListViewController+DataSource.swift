@@ -123,8 +123,14 @@ extension ReminderListViewController {
     
     // remove reminder by id
     func deleteReminder(with id: Reminder.ID) {
-        let index = reminders.indexOfReminder(with: id)
-        reminders.remove(at: index)
+        do {
+            try reminderStore.remove(with: id)
+            let index = reminders.indexOfReminder(with: id)
+            reminders.remove(at: index)
+        } catch RejuvenateError.accessDenied {
+        } catch {
+            showError(error)
+        }
     }
     
     // accessor method to get a reminder based on its id
@@ -135,7 +141,13 @@ extension ReminderListViewController {
     
     // updater method to update a reminder by passing in the new reminder as well as a reference to the old reminder's id
     func update(_ reminder: Reminder, with id: Reminder.ID) {
-        let index = reminders.indexOfReminder(with: id)
-        reminders[index] = reminder
+        do {
+            try reminderStore.save(reminder)
+            let index = reminders.indexOfReminder(with: id)
+            reminders[index] = reminder
+        } catch RejuvenateError.accessDenied {
+        } catch {
+            showError(error)
+        }
     }
 }
