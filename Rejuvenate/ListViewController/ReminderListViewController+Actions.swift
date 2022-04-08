@@ -8,6 +8,10 @@
 import UIKit
 
 extension ReminderListViewController {
+    @objc func eventStoreChanged(_ notification: NSNotification) {
+        reminderStoreChanged()
+    }
+    
     // the @objc annotation makes this function available to objective-c --> is placed here because this function will be accessing an objective-c api
     @objc func didPressDoneButton(_ sender: ReminderDoneButton) {
         guard let id = sender.id else {return}
