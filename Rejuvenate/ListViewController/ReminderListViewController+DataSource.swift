@@ -15,6 +15,15 @@ extension ReminderListViewController {
     typealias DataSource = UICollectionViewDiffableDataSource<Int, Reminder.ID> // this is basically just assigning the diffable data source type to a new alias called DataSource. diffable data updates and animates the ui when data changes -> basically just live data
     typealias Snapshot = NSDiffableDataSourceSnapshot<Int, Reminder.ID> // the diffable data source manages data using snapshots -> snapshots represent the state of the data at a certain point in time (like context) -> will be applying the snap shot to display data in the ui
     
+    var reminderCompletedValue: String {
+        NSLocalizedString("Completed", comment: "Reminder completed value")
+    }
+    var reminderNotCompletedValue: String {
+        NSLocalizedString("Not completed", comment: "Reminder not completed value")
+    }
+    
+    private var reminderStore: ReminderStore { ReminderStore.shared }
+    
     func updateSnapshot(reloading idsThatChanged: [Reminder.ID] = []) { // initializing to empty array allows the function to be called without passing in any parameters
         let ids = idsThatChanged.filter { id in filteredReminders.contains(where: { $0.id == id }) }
         var snapShot = Snapshot() // new empty snapshot variable
@@ -50,7 +59,7 @@ extension ReminderListViewController {
         cell.backgroundConfiguration = backgroundConfiguration
     }
     
-    // function that changes the isComplete state of a reminder --> called when the done button is tapped 
+    // function that changes the isComplete state of a reminder --> called when the done button is tapped
     func completeReminder(with id: Reminder.ID){
         var reminder = reminder(for: id)
         reminder.isComplete.toggle() // toggle changes the value to false is currently true and true if currently false
@@ -75,12 +84,28 @@ extension ReminderListViewController {
         return UICellAccessory.CustomViewConfiguration(customView: button, placement: .leading(displayed: .always))
     }
     
+    func prepareReminderStore() {
+        Task {
+            do {
+                try await reminderStore.requestAccess()
+                reminders = try await reminderStore.readAll()
+            } catch RejuvenateError.accessDenied, RejuvenateError.accessRestricted {
+#if DEBUG
+                reminders = Reminder.sampleData
+#endif
+            } catch {
+                showError(error)
+            }
+            updateSnapshot()
+        }
+    }
+    
     // method that adds a reminder to the list of reminders
     func add(_ reminder: Reminder) {
         reminders.append(reminder)
     }
     
-    // remove reminder by id 
+    // remove reminder by id
     func deleteReminder(with id: Reminder.ID) {
         let index = reminders.indexOfReminder(with: id)
         reminders.remove(at: index)

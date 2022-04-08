@@ -12,7 +12,7 @@ import UIKit
 class ReminderListViewController: UICollectionViewController {
     
     var dataSource: DataSource! // this implicity unwraps DataSource and ensures it will be assigned a value -> basically just an lateinit var
-    var reminders: [Reminder] = Reminder.sampleData
+    var reminders: [Reminder] = []
     var filteredReminders: [Reminder] { // array that contains the filtered reminders
         return reminders.filter {
             listStyle.shouldInclude(date: $0.dueDate)
@@ -78,6 +78,8 @@ class ReminderListViewController: UICollectionViewController {
         updateSnapshot() //this applies the new snapshot to the datasource
         
         collectionView.dataSource = dataSource // collectionView is from the super class UICollectionViewController and .dataSource was defined in this file
+        
+        prepareReminderStore()
     }
     
     // function to show the detail view when a cell in the collection is tapped
@@ -110,6 +112,16 @@ class ReminderListViewController: UICollectionViewController {
         
         // push the detail view controller onto the navigation controller stack
         navigationController?.pushViewController(viewController, animated: true)
+    }
+    
+    func showError(_ error: Error) {
+        let alertTitle = NSLocalizedString("Error", comment: "Error alert title")
+        let alert = UIAlertController(title: alertTitle, message: error.localizedDescription, preferredStyle: .alert)
+        let actionTitle = NSLocalizedString("OK", comment: "Alert OK button title")
+        alert.addAction(UIAlertAction(title: actionTitle, style: .default, handler: { [weak self] _ in
+            self?.dismiss(animated: true)
+        }))
+        present(alert, animated: true, completion: nil)
     }
     
     // this funciton defines how the list ui will appear
