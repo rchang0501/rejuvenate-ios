@@ -65,7 +65,7 @@
     <color key="tintColor" name="SajeGreenDark"/>
     <resources>
         <namedColor name="SajeGreenDark">
-            <color red="0.67843137254901964" green="0.79607843137254897" blue="0.63921568627450975" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.40000000000000002" green="0.65098039215686276" blue="0.31764705882352939" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
