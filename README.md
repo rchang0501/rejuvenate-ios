@@ -3,7 +3,7 @@ Skincare management iOS application using UIKit for UI/UX development and EventK
 
 ### Launch Screen
 
-![Rejuvenate Launch](/demo/1_intro.gif)
+![Rejuvenate Launch](/demo/Intro_1.gif)
 
 ### Toggle Skincare Reminders as Complete or Incomplete
 
