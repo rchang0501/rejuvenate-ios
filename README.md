@@ -9,7 +9,7 @@ Skincare management iOS application using UIKit for UI/UX development and EventK
 Rejuvenate is a skincare management app that is **built natively for iOS and  Android.** The goal of the application is to enable the user to effectively manage their skincare routine; specifying the product to use, the date and time to use it, as well as adding additional notes such as usage instructions. A skincare and wellness angle was taken to build this routine management app due to a growing intersection between mobile technologies and the beauty/wellness industry. Strong marketing efforts from industry giants such as Sephora have begun driving a trend of having your phone be the primary hub for beauty/wellness browsing and purchasing. Rejuvenate will thus benefit a wide audience of users to ensure they are scheduling and managing their routines to best meet their skincare goals. 
 
 ### iOS Tech Stack
-**Language**: Swift 5</br>
+**Languages**: Swift</br>
 **Architecture Pattern**: MVC </br>
 **Frameworks**: UIKit, EventKit </br>
 **IDE**: Xcode 13 </br>
